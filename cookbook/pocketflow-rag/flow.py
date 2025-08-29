@@ -1,6 +1,6 @@
 from pocketflow import Flow
 from nodes import EmbedDocumentsNode, CreateIndexNode, EmbedQueryNode, RetrieveDocumentNode, ChunkDocumentsNode, GenerateAnswerNode
-
+# 切片、嵌入与创建索引节点
 def get_offline_flow():
     # Create offline flow for document indexing
     chunk_docs_node = ChunkDocumentsNode()
@@ -12,7 +12,7 @@ def get_offline_flow():
     
     offline_flow = Flow(start=chunk_docs_node)
     return offline_flow
-
+# 询问嵌入、检索文档与生成回答节点
 def get_online_flow():
     # Create online flow for document retrieval and answer generation
     embed_query_node = EmbedQueryNode()

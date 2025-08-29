@@ -20,6 +20,10 @@ Below is a  table of the popular vector search solutions:
 | **Chroma** | N/A, self-host | Free (Apache 2.0) | [trychroma.com](https://trychroma.com) |
 | **Redis** | 30MB free | From $5/mo | [redis.io](https://redis.io) |
 
+## Vector DP pros
+智能索引算法：诸如HNSW（分层可导航小世界）之类的方法在嵌入空间中创建快捷方式，因此系统只需检查文档的一小部分。
+向量压缩：这些数据库可以缩小嵌入以节省内存，同时保留它们的关系——就像拥有一张压缩的地图，仍然显示所有重要的地标。
+并行处理：现代向量数据库同时使用多个CPU/GPU核心，同时检查许多可能性——就像有一组图书管理员同时搜索图书馆的不同区域。
 ---
 ## Example Python Code
 
@@ -216,3 +220,15 @@ res = r.ft("my_idx").search(q, query_params={"BLOB": qvec})
 print(res.docs)
 ```
 
+### 简单方法：穷举搜索
+```python
+def retrieve_naive(question_embedding, chunk_embeddings):
+    best_similarity, best_chunk_index = -1, -1
+​
+    for idx, chunk_embedding in enumerate(chunk_embeddings):
+        similarity = get_similarity(question_embedding, chunk_embedding)
+        if similarity > best_similarity:
+            best_similarity, best_chunk_index = similarity, idx
+​
+    return best_chunk_index
+```

@@ -14,6 +14,7 @@ class BaseNode:
     def run(self,shared): 
         if self.successors: warnings.warn("Node won't run successors. Use Flow.")  
         return self._run(shared)
+    # 操作符重载，>>:next, -:node - "action" >> next_node
     def __rshift__(self,other): return self.next(other)
     def __sub__(self,action):
         if isinstance(action,str): return _ConditionalTransition(self,action)
@@ -33,9 +34,11 @@ class Node(BaseNode):
                 if self.cur_retry==self.max_retries-1: return self.exec_fallback(prep_res,e)
                 if self.wait>0: time.sleep(self.wait)
 
+# 批量处理node
 class BatchNode(Node):
     def _exec(self,items): return [super(BatchNode,self)._exec(i) for i in (items or [])]
 
+# 节点间控制
 class Flow(BaseNode):
     def __init__(self,start=None): super().__init__(); self.start_node=start
     def start(self,start): self.start_node=start; return start
@@ -56,6 +59,7 @@ class BatchFlow(Flow):
         for bp in pr: self._orch(shared,{**self.params,**bp})
         return self.post(shared,pr,None)
 
+# 使用await调用异步方法
 class AsyncNode(Node):
     async def prep_async(self,shared): pass
     async def exec_async(self,prep_res): pass

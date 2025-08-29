@@ -7,10 +7,18 @@ from mcp.client.stdio import stdio_client
 # Global flag to control whether to use MCP or local implementation
 MCP = False
 
+# def call_llm(prompt):    
+#     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", "your-api-key"))
+#     r = client.chat.completions.create(
+#         model="gpt-4o",
+#         messages=[{"role": "user", "content": prompt}]
+#     )
+#     return r.choices[0].message.content
+
 def call_llm(prompt):    
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", "your-api-key"))
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""),base_url ="https://open.bigmodel.cn/api/paas/v4/")
     r = client.chat.completions.create(
-        model="gpt-4o",
+        model="glm-4-flash",
         messages=[{"role": "user", "content": prompt}]
     )
     return r.choices[0].message.content

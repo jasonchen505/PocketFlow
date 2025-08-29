@@ -2,10 +2,10 @@ from openai import OpenAI
 import os
 
 def call_llm(messages):
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", "your-api-key"))
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""),base_url ="https://open.bigmodel.cn/api/paas/v4/")
     
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="glm-4-flash",
         messages=messages,
         temperature=0.7
     )

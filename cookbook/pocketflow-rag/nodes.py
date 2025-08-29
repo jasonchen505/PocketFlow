@@ -1,9 +1,10 @@
 from pocketflow import Node, Flow, BatchNode
 import numpy as np
 import faiss
-from utils import call_llm, get_embedding, fixed_size_chunk
+from utils import call_llm, get_embedding, fixed_size_chunk,sentence_based_chunk
 
 # Nodes for the offline flow
+# batchnode to handle texts's documents parallelly
 class ChunkDocumentsNode(BatchNode):
     def prep(self, shared):
         """Read texts from shared store"""
@@ -12,6 +13,7 @@ class ChunkDocumentsNode(BatchNode):
     def exec(self, text):
         """Chunk a single text into smaller pieces"""
         return fixed_size_chunk(text)
+        # return sentence_based_chunk(text)
     
     def post(self, shared, prep_res, exec_res_list):
         """Store chunked texts in the shared store"""
@@ -93,7 +95,7 @@ class RetrieveDocumentNode(Node):
         print("🔎 Searching for relevant documents...")
         query_embedding, index, texts = inputs
         
-        # Search for the most similar document
+        # Search for the most similar document，top_k
         distances, indices = index.search(query_embedding, k=1)
         
         # Get the index of the most similar document

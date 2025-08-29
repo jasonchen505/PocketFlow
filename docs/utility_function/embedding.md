@@ -115,3 +115,52 @@ vec = res.json()["data"][0]["embedding"]
 print(vec)
 ```
 
+### 8. 简单方法：字符频率
+```python
+def get_simple_embedding(text):
+    # Create a vector to store character frequencies
+    embedding = np.zeros(26, dtype=np.float32)
+​
+    # Count character frequencies in the text
+    for char in text:
+        embedding[ord(char) % 26] += 1.0
+​
+    # Normalize the vector
+    norm = np.linalg.norm(embedding)
+    if norm > 0:
+        embedding /= norm
+​
+    return embedding
+```
+
+### 9. zhipu
+```python
+from openai import OpenAI
+
+client = OpenAI(api_key="YOUR_API_KEY",base_url ="https://open.bigmodel.cn/api/paas/v4/")
+response = client.embeddings.create(
+    model="embedding-3",
+    input=text
+)
+    
+# Extract the embedding vector from the response
+embedding = response.data[0].embedding
+embedding = np.array(embedding, dtype=np.float32)
+print(embedding)
+```
+
+### 10. zhipu
+```python
+from openai import OpenAI
+
+client = OpenAI(api_key="YOUR_API_KEY",base_url ="https://api.siliconflow.cn/v1")
+response = client.embeddings.create(
+    model="BAAI/bge-m3",
+    input=text
+)
+    
+# Extract the embedding vector from the response
+embedding = response.data[0].embedding
+embedding = np.array(embedding, dtype=np.float32)
+print(embedding)
+```

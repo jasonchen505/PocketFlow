@@ -45,6 +45,7 @@ class ChatNode(Node):
 
 # Create the flow with self-loop
 chat_node = ChatNode()
+# continue 
 chat_node - "continue" >> chat_node  # Loop back to continue conversation
 
 flow = Flow(start=chat_node)

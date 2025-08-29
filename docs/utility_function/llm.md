@@ -93,6 +93,17 @@ Here, we provide some minimal example implementations:
         return r.choices[0].message.content
     ```
 
+7. Zhipu
+    ```python
+    def call_llm(prompt):
+        from openai import OpenAI
+        client = OpenAI(api_key="YOUR_DEEPSEEK_API_KEY", base_url="https://open.bigmodel.cn/api/paas/v4/")
+        r = client.chat.completions.create(
+            model="glm-4-flash",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return r.choices[0].message.content
+    ```
 
 ## Improvements
 Feel free to enhance your `call_llm` function as needed. Here are examples:
